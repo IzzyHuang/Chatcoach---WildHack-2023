@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+  <title>OpenAI Quickstart</title>
+  <link
+    rel="shortcut icon"
+    href="{{ url_for('static', filename='logo.png') }}"
+  />
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+</head>
+
+<body>
+  <!-- <img width="60%" height="200" src="{{ url_for('static', filename='logo.png') }}" class="icon" /> -->
+  <img src="{{ url_for('static', filename='logo.png') }}" alt="Company logo" width="500" height="250">
+  <h3></h3>
+  <form method="POST" action="/config">
+    <select name="setting">
+      <option value="" disabled selected>Select Language</option>
+      <option value="Arabic">Arabic</option>
+      <option value="Chinese">Chinese</option>
+      <option value="Danish">Danish</option>
+      <option value="Dutch">Dutch</option>
+      <option value="English">English</option>
+      <option value="French">French</option>
+      <option value="German">German</option>
+      <option value="Hindi">Hindi</option>
+      <option value="Icelandic">Icelandic</option>
+      <option value="Italian">Italian</option>
+      <option value="Japanese">Japanese</option>
+      <option value="Korean">Korean</option>
+      <option value="Norwegian">Norwegian</option>
+      <option value="Polish">Polish</option>
+      <option value="Portuguese">Portuguese</option>
+      <option value="Romanian">Romanian</option>
+      <option value="Russian">Russian</option>
+      <option value="Spanish">Spanish</option>
+      <option value="Swedish">Swedish</option>
+      <option value="Turkish">Turkish</option>
+    </select>
+
+    <select name="level">
+      <option value="" disabled selected>Select Level</option>
+      <option value="beginner">Beginner</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="fluent">Fluent</option>
+    </select>
+    <button type="submit">Go</button>
+  </form>
+
+
+  <!-- <input type="range" class="form-control-range sync" id="slider1" min="0" max="50" value="{{temp_value}}" -->
+
+  <div id="controls">
+    <button id="recordButton">Record</button>
+    <button id="pauseButton" disabled=true>Pause</button>
+    <button id="stopButton" disabled=true>Stop</button>
+  </div>
+
+  <audio id="response-audio" hidden controls autoplay>
+    <source id = "response-source" src="{{ url_for('static', filename='speech.mp3') }}" type="audio/mpeg">
+  </audio>
+
+  <!-- <ol id="recordingsList"></ol> -->
+  <a id="upload_link" href=""></a>
+
+  <!--Recorder.js library-->
+  <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script> 
+  <!--Our recorder script-->
+  <script src="{{ url_for('static', filename='js/record.js') }}"></script>
+
+
+  <!-- <h1>Upload and Play Audio File</h1> -->
+    <script>
+      function loadAndPlay() {
+        console.log("reloading audio");
+        //window.location.reload();
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('get', '/src');
+        xhr.send();
+
+        xhr.onload = function() {
+          console.log(xhr.response);
+          audio_path = xhr.response;
+
+          audio = document.getElementById("response-audio");
+          source = document.getElementById("response-source");
+          audio.hidden = false;
+
+
+          source.src = audio_path;
+
+          audio.load();
+          audio.play();
+        };
+      }
+    </script>
+
+</body>
+
